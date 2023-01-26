@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.muhammedkocabas.kotlininstagram.R
@@ -55,15 +56,21 @@ class FeedActivity : AppCompatActivity() {
     //read data from DB for feed activity
     private fun getData() {
         //read a snapshot of FireStore database
-        db.collection("Posts").addSnapshotListener { value, error ->
+        db.collection("Posts").orderBy("date",
+            Query.Direction.DESCENDING) .addSnapshotListener { value, error ->
             //if error is not null display the message
             if (error !=null) {
                 Toast.makeText(this@FeedActivity,error.localizedMessage,Toast.LENGTH_LONG).show()
             } else {//if value is not null and not empty read documents
                 if (value != null) {
+
                     if (!value.isEmpty) {
                         //read all documents
                         val documents = value.documents
+
+                        //clear arraylist to avoid duplicates
+                        postArrayList.clear()
+
                         // assign each document to a post object and add to the posts arraylist
                         for (document in documents) {
                             //comment was any type, so cast it as string
