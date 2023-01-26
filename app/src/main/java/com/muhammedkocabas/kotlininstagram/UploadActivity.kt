@@ -54,7 +54,7 @@ class UploadActivity : AppCompatActivity() {
         storage = Firebase.storage
 
     }
-
+    // upload button clicked
     fun uploadClicked (view: View) {
 
         //create random uuid
@@ -65,38 +65,48 @@ class UploadActivity : AppCompatActivity() {
         val imageReference = reference.child("images/$uuid")
 
 
-
+        //Create the post model schema for save to storage and firebase
         if (selectedPicture != null) {
+            //upload to storage
             imageReference.putFile(selectedPicture!!).addOnSuccessListener {
-                //get download url and save to firestore
 
+                //get download url from storage with flexible extension and save to firestore
                 imageReference.downloadUrl.addOnSuccessListener {
-
+                    //get download from success object
                     val downloadUrl = it.toString()
 
+                    //make sure user is authenticated
                     if (auth.currentUser != null) {
-                        //Create the post model schema for save to firestore
+
+                        //Create the model schema for save to firestore
                         val postmap = hashMapOf<String, Any>()
                         postmap.put("downloadUrl", downloadUrl)
                         postmap.put("userEmail", auth.currentUser!!.email!!)
                         postmap.put("comment",binding.commentText.text.toString())
-                        postmap.put("date",Timestamp.now())
+                        postmap.put("date",Timestamp.now())  //Firestore timestamp
 
+                        // save the post object to collection Posts
                         firestore.collection("Posts").add(postmap).addOnSuccessListener {
+
+                            //on success finish activity and go back to Feed
                             finish()
 
+
                         }.addOnFailureListener {
+                            //if save to collection fails  display localized message
                             Toast.makeText(this@UploadActivity,it.localizedMessage,Toast.LENGTH_LONG).show()
                         }
 
                     }
                 }.addOnFailureListener{
+                    //if getting download Url fails
                     Toast.makeText(this,it.localizedMessage,Toast.LENGTH_LONG).show()
                 }
 
 
 
             }.addOnFailureListener {
+                //if upload to the storage fails
                 Toast.makeText(this,it.localizedMessage,Toast.LENGTH_LONG).show()
             }
         }

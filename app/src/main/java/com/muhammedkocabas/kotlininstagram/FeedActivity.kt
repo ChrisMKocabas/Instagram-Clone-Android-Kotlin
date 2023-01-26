@@ -5,17 +5,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.muhammedkocabas.kotlininstagram.databinding.ActivityFeedBinding
-import com.muhammedkocabas.kotlininstagram.databinding.ActivityMainBinding
+import com.muhammedkocabas.kotlininstagram.model.Post
 
 class FeedActivity : AppCompatActivity() {
 
 
     private lateinit var binding: ActivityFeedBinding
     private  lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
+    //create an arraylist to hold posts
+    private lateinit var postArrayList : ArrayList<Post>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +32,41 @@ class FeedActivity : AppCompatActivity() {
 
         //initialize authentication
         auth = Firebase.auth
+        db = Firebase.firestore
+
+        //initialize arraylist of posts
+        postArrayList = ArrayList<Post>()
+
+        getData()
     }
 
+    //read data from DB for feed activity
+    private fun getData() {
+        //read a snapshot of FireStore database
+        db.collection("Posts").addSnapshotListener { value, error ->
+            //if error is not null display the message
+            if (error !=null) {
+                Toast.makeText(this@FeedActivity,error.localizedMessage,Toast.LENGTH_LONG).show()
+            } else {//if value is not null and not empty read documents
+                if (value != null) {
+                    if (!value.isEmpty) {
+                        //read all documents
+                        val documents = value.documents
+                        // assign each document to a post object and add to the posts arraylist
+                        for (document in documents) {
+                            //comment was any type, so cast it as string
+                            val comment = document.get("comment") as String
+                            val userEmail = document.get("userEmail") as String
+                            val downloadUrl = document.get("downloadUrl") as String
+                            println(comment)
+                            val post = Post(userEmail,comment,downloadUrl)
+                            postArrayList.add(post)
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
