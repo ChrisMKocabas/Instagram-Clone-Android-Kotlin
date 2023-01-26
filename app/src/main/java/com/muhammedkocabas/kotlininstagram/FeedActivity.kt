@@ -37,6 +37,7 @@ class FeedActivity : AppCompatActivity() {
         //initialize arraylist of posts
         postArrayList = ArrayList<Post>()
 
+        //read data from Firestore
         getData()
     }
 
@@ -58,7 +59,7 @@ class FeedActivity : AppCompatActivity() {
                             val comment = document.get("comment") as String
                             val userEmail = document.get("userEmail") as String
                             val downloadUrl = document.get("downloadUrl") as String
-                            println(comment)
+//                            println(comment)
                             val post = Post(userEmail,comment,downloadUrl)
                             postArrayList.add(post)
                         }
