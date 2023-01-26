@@ -1,4 +1,4 @@
 package com.muhammedkocabas.kotlininstagram.model
 
-data class Post (val email: String, val commentL: String, val downloadUrl:String) {
+data class Post (val email: String, val comment: String, val downloadUrl:String) {
 }

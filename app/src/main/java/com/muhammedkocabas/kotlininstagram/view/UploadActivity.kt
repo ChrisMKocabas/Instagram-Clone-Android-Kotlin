@@ -1,4 +1,4 @@
-package com.muhammedkocabas.kotlininstagram
+package com.muhammedkocabas.kotlininstagram.view
 
 import android.Manifest
 import android.content.Intent
@@ -23,7 +23,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.ktx.storage
 import com.muhammedkocabas.kotlininstagram.databinding.ActivityUploadBinding
 import java.util.*

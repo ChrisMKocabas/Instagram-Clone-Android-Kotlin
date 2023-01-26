@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+
+        >
+
+    <TextView
+        android:id="@+id/recyclerEmailText"
+        android:layout_width="350dp"
+        android:layout_height="35dp"
+        android:layout_margin="5dp"
+        android:layout_marginTop="16dp"
+        android:text="User email"
+        android:textColor="@color/purple_700"
+
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/recyclerImageView"
+        android:layout_width="350dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerEmailText"/>
+
+    <TextView
+        android:id="@+id/recyclerCommentText"
+        android:layout_width="350dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:text="Test"
+        android:textColor="@color/purple_700"
+
+        android:textSize="19sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerImageView"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

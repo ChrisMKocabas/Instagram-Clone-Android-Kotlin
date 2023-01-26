@@ -1,4 +1,4 @@
-package com.muhammedkocabas.kotlininstagram
+package com.muhammedkocabas.kotlininstagram.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             auth.signInWithEmailAndPassword(email,password).addOnSuccessListener {
                 //success
-                val intent = Intent(this@MainActivity,FeedActivity::class.java)
+                val intent = Intent(this@MainActivity, FeedActivity::class.java)
                 startActivity(intent)
                 finish()
             }.addOnFailureListener {
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             auth.createUserWithEmailAndPassword(email,password).addOnSuccessListener {
                 //success
-                val intent = Intent(this@MainActivity,FeedActivity::class.java)
+                val intent = Intent(this@MainActivity, FeedActivity::class.java)
                 startActivity(intent)
                 finish()
             }.addOnFailureListener {

@@ -1,4 +1,4 @@
-package com.muhammedkocabas.kotlininstagram
+package com.muhammedkocabas.kotlininstagram.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,11 +6,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintLayoutStates
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.muhammedkocabas.kotlininstagram.R
+import com.muhammedkocabas.kotlininstagram.adapter.FeedRecyclerAdapter
 import com.muhammedkocabas.kotlininstagram.databinding.ActivityFeedBinding
 import com.muhammedkocabas.kotlininstagram.model.Post
 
@@ -22,6 +27,7 @@ class FeedActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
     //create an arraylist to hold posts
     private lateinit var postArrayList : ArrayList<Post>
+    private lateinit var feedAdapter: FeedRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +45,11 @@ class FeedActivity : AppCompatActivity() {
 
         //read data from Firestore
         getData()
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
+        feedAdapter = FeedRecyclerAdapter(postArrayList)
+        binding.recyclerView.adapter = feedAdapter
     }
 
     //read data from DB for feed activity
@@ -63,6 +74,8 @@ class FeedActivity : AppCompatActivity() {
                             val post = Post(userEmail,comment,downloadUrl)
                             postArrayList.add(post)
                         }
+                        //listen for data changes and upgate the feed adapter
+                        feedAdapter.notifyDataSetChanged()
                     }
                 }
             }
